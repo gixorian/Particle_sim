@@ -1,6 +1,6 @@
-static float G = 1;
 static float MAX_SPEED = 5;
 
+float G = 1;
 float F = 0;
 
 ArrayList<Particle> particles = new ArrayList<Particle>(); 
@@ -12,6 +12,17 @@ ArrayList<Particle> blue_group = new ArrayList<Particle>();
 PVector rule_range = new PVector(-1, 1);
 boolean dist_function_d = true;
 
+void Reset(){
+  
+  particles.clear();
+  ResetGUI();
+  
+  yellow_group = CreateGroup((int)cp5.getController("yellow count").getValue(), color(255,255,0), 3, 1);
+  red_group = CreateGroup((int)cp5.getController("red count").getValue(), color(255,0,0), 3, 1);
+  green_group = CreateGroup((int)cp5.getController("green count").getValue(), color(0,255,0), 3, 1);
+  blue_group = CreateGroup((int)cp5.getController("blue count").getValue(), color(0,0,255), 3, 1);
+}
+
 void setup(){
   
   frameRate(60);
@@ -20,21 +31,19 @@ void setup(){
   noStroke();
   
   DrawGUI(); 
-  
-  yellow_group = CreateGroup(500, color(255,255,0), 3, 1);
-  red_group = CreateGroup(500, color(255,0,0), 3, 1);
-  green_group = CreateGroup(500, color(0,255,0), 3, 1);
-  blue_group = CreateGroup(500, color(0,0,255), 3, 1);
+
+  Reset();
 }
 
 float dist = 100;
 
 void draw(){
   //if(frameCount % 10 == 0) { return; }
-  print(frameRate + "\n");
+  //print(frameRate + "\n");
   background(0);
-  //float yellow_yellow = cp5.getController("yellow X yellow").getValue();
-  dist = cp5.getController("force strength").getValue();
+  
+  dist = cp5.getController("force distance").getValue();
+  G = cp5.getController("G").getValue();
   
   Rule(yellow_group, yellow_group, cp5.getController("yellow_yellow").getValue() ,dist);
   Rule(yellow_group, red_group, cp5.getController("yellow_red").getValue() ,dist);
@@ -59,7 +68,7 @@ void draw(){
   for(int i = 0; i < particles.size(); i++){
     Particle p = particles.get(i);
     fill(p.col);
-    ellipse(p.x, p.y, p.size, p.size);   
+    ellipse(p.x, p.y, cp5.getController("size").getValue(), cp5.getController("size").getValue() );//p.size, p.size);   
   }
   
   fill(54, 57, 61);

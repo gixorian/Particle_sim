@@ -76,13 +76,24 @@ void DrawGUI(){
   
   offset += 3;
   
-  // Force strength slider
-  DrawSlider("force strength", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
+  // Force distance slider
+  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
+  
+  //offset++;
+  
+  // G slider
+  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1, false);
+  
+  offset++;
+  
+  // size slider
+  DrawSlider("size", height-(SLIDER_HEIGHT*offset), new PVector(1, 10), 3, false);
   
   offset++;
   offset++;
   
   // Particle force sliders
+  DrawSlider("yellow count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
   DrawSlider("yellow_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("yellow_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("yellow_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
@@ -90,6 +101,7 @@ void DrawGUI(){
   
   offset++;
   
+  DrawSlider("red count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
   DrawSlider("red_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("red_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("red_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
@@ -97,6 +109,7 @@ void DrawGUI(){
   
   offset++;
   
+  DrawSlider("green count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
   DrawSlider("green_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("green_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("green_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
@@ -104,6 +117,7 @@ void DrawGUI(){
   
   offset++;
   
+  DrawSlider("blue count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
   DrawSlider("blue_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("blue_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("blue_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
@@ -135,4 +149,10 @@ void DrawSlider(String name, float h, PVector range, float start_value, boolean 
   ;
   
   offset++;
+}
+
+void ResetGUI(){
+  for(int i = 0; i < sliders.size(); i++){
+    cp5.getController(sliders.get(i)).setValue(0);
+  }
 }
