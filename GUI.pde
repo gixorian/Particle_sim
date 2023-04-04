@@ -2,7 +2,7 @@ import controlP5.*;
 ControlP5 cp5;
 
 static int SLIDER_HEIGHT = 20;
-static int GUI_WIDTH = 200;
+static int GUI_WIDTH = 250;
 
 ArrayList<String> sliders = new ArrayList<String>();
 
@@ -77,12 +77,12 @@ void DrawGUI(){
   offset += 3;
   
   // Force distance slider
-  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
+  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 100, false);
   
   //offset++;
   
   // G slider
-  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1, false);
+  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1.5, false);
   
   offset++;
   

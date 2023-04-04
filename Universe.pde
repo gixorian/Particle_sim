@@ -1,5 +1,12 @@
 static float MAX_SPEED = 5;
 
+static int CANVAS_WIDTH = 500;
+static int CANVAS_HEIGHT = 500;
+
+PVector max_canvas_size = new PVector();
+PVector min_max_width = new PVector();
+PVector min_max_height = new PVector();
+
 float G = 1;
 float F = 0;
 
@@ -29,10 +36,23 @@ void setup(){
   size(1050, 800);
   background(0);
   noStroke();
+  stroke(0);
+  
+  max_canvas_size.x = width - GUI_WIDTH;
+  max_canvas_size.y = height;
+  
+  min_max_width.x = (GUI_WIDTH + (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
+  min_max_width.y = (width - (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
+  
+  min_max_height.x = (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 );
+  min_max_height.y = (height - (int)(( max_canvas_size.x - CANVAS_HEIGHT ) / 2 ));
   
   DrawGUI(); 
 
   Reset();
+  
+  //print(max_canvas_width);
+  print(min_max_width.x);
 }
 
 float dist = 100;
@@ -41,6 +61,11 @@ void draw(){
   //if(frameCount % 10 == 0) { return; }
   //print(frameRate + "\n");
   background(0);
+  
+  noFill();
+  stroke(255);
+  strokeWeight(5);
+  rect(min_max_width.x, min_max_height.x, CANVAS_WIDTH, CANVAS_HEIGHT);
   
   dist = cp5.getController("force distance").getValue();
   G = cp5.getController("G").getValue();
@@ -68,6 +93,8 @@ void draw(){
   for(int i = 0; i < particles.size(); i++){
     Particle p = particles.get(i);
     fill(p.col);
+    stroke(0);
+    strokeWeight(1);
     ellipse(p.x, p.y, cp5.getController("size").getValue(), cp5.getController("size").getValue() );//p.size, p.size);   
   }
   
@@ -80,7 +107,7 @@ ArrayList<Particle> CreateGroup(int amount, color col, float size, float mass){
   ArrayList<Particle> group = new ArrayList<Particle>();
   
   for(int i = 0; i < amount; i++){
-    group.add(new Particle(random(GUI_WIDTH, width), random(0, height), col, size, mass)); //Random position
+    group.add(new Particle(random(min_max_width.x, min_max_width.y), random(min_max_height.x, min_max_height.y), col, size, mass)); //Random position
     //group.add(new Particle(width/2 + (i/100), height/2 + (i/100), col, size, mass)); //BIG BANG!
     particles.add(group.get(i));
   }
@@ -115,7 +142,8 @@ void Rule(ArrayList<Particle> particles1, ArrayList<Particle> particles2, float 
     
     a.x += a.vx;
     a.y += a.vy;
-    if(a.x <= GUI_WIDTH || a.x >= width) { a.vx *= -1; }
-    if(a.y <= 0 || a.y >= height) { a.vy *= -1; } 
+    
+    if(a.x <= min_max_width.x  || a.x >= min_max_width.y) { a.vx *= -5; }
+    if(a.y <= min_max_height.x || a.y >= min_max_height.y ) { a.vy *= -5; } 
   }
 }
