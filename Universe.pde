@@ -50,9 +50,6 @@ void setup(){
   DrawGUI(); 
 
   Reset();
-  
-  //print(max_canvas_width);
-  print(min_max_width.x);
 }
 
 float dist = 100;
