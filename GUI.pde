@@ -98,6 +98,7 @@ void DrawGUI(){
   DrawSlider("yellow_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("yellow_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("yellow_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("yellow_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   
   offset++;
   
@@ -106,6 +107,7 @@ void DrawGUI(){
   DrawSlider("red_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("red_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("red_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("red_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   
   offset++;
   
@@ -114,6 +116,7 @@ void DrawGUI(){
   DrawSlider("green_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("green_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("green_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("green_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   
   offset++;
   
@@ -122,6 +125,16 @@ void DrawGUI(){
   DrawSlider("blue_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("blue_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   DrawSlider("blue_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("blue_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  
+  offset++;
+  
+  DrawSlider("purple count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
+  DrawSlider("purple_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("purple_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("purple_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("purple_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  DrawSlider("purple_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
 }
 
 void DrawSlider(String name, float h, PVector range, float start_value, boolean randomize){

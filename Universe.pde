@@ -1,7 +1,7 @@
 static float MAX_SPEED = 5;
 
-static int CANVAS_WIDTH = 500;
-static int CANVAS_HEIGHT = 500;
+static int CANVAS_WIDTH;
+static int CANVAS_HEIGHT;
 
 PVector max_canvas_size = new PVector();
 PVector min_max_width = new PVector();
@@ -15,6 +15,7 @@ ArrayList<Particle> yellow_group = new ArrayList<Particle>();
 ArrayList<Particle> red_group = new ArrayList<Particle>();
 ArrayList<Particle> green_group = new ArrayList<Particle>();
 ArrayList<Particle> blue_group = new ArrayList<Particle>();
+ArrayList<Particle> purple_group = new ArrayList<Particle>();
 
 PVector rule_range = new PVector(-1, 1);
 boolean dist_function_d = true;
@@ -28,12 +29,14 @@ void Reset(){
   red_group = CreateGroup((int)cp5.getController("red count").getValue(), color(255,0,0), 3, 1);
   green_group = CreateGroup((int)cp5.getController("green count").getValue(), color(0,255,0), 3, 1);
   blue_group = CreateGroup((int)cp5.getController("blue count").getValue(), color(0,0,255), 3, 1);
+  purple_group = CreateGroup((int)cp5.getController("purple count").getValue(), color(255,0,255), 3, 1);
 }
 
 void setup(){
   
   frameRate(60);
   size(1050, 800);
+  fullScreen();
   background(0);
   noStroke();
   stroke(0);
@@ -41,11 +44,14 @@ void setup(){
   max_canvas_size.x = width - GUI_WIDTH;
   max_canvas_size.y = height;
   
+  CANVAS_WIDTH = (int)max_canvas_size.x - 200;
+  CANVAS_HEIGHT = (int)max_canvas_size.y - 200;
+  
   min_max_width.x = (GUI_WIDTH + (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
   min_max_width.y = (width - (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
   
   min_max_height.x = (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 );
-  min_max_height.y = (height - (int)(( max_canvas_size.x - CANVAS_HEIGHT ) / 2 ));
+  min_max_height.y = (height - (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 ));
   
   DrawGUI(); 
 
@@ -71,21 +77,31 @@ void draw(){
   Rule(yellow_group, red_group, cp5.getController("yellow_red").getValue() ,dist);
   Rule(yellow_group, green_group, cp5.getController("yellow_green").getValue() ,dist);
   Rule(yellow_group, blue_group, cp5.getController("yellow_blue").getValue() ,dist);
+  Rule(yellow_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
   
   Rule(red_group, yellow_group, cp5.getController("red_yellow").getValue() ,dist);
   Rule(red_group, red_group, cp5.getController("red_red").getValue() ,dist);
   Rule(red_group, green_group, cp5.getController("red_green").getValue() ,dist);
   Rule(red_group, blue_group, cp5.getController("red_blue").getValue() ,dist);
+  Rule(red_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
   
   Rule(green_group, yellow_group, cp5.getController("green_yellow").getValue() ,dist);
   Rule(green_group, red_group, cp5.getController("green_red").getValue() ,dist);
   Rule(green_group, green_group, cp5.getController("green_green").getValue() ,dist);
   Rule(green_group, blue_group, cp5.getController("green_blue").getValue() ,dist);
+  Rule(green_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
   
   Rule(blue_group, yellow_group, cp5.getController("blue_yellow").getValue() ,dist);
   Rule(blue_group, red_group, cp5.getController("blue_red").getValue() ,dist);
   Rule(blue_group, green_group, cp5.getController("blue_green").getValue() ,dist);
   Rule(blue_group, blue_group, cp5.getController("blue_blue").getValue() ,dist);
+  Rule(blue_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
+  
+  Rule(purple_group, yellow_group, cp5.getController("purple_yellow").getValue() ,dist);
+  Rule(purple_group, red_group, cp5.getController("purple_red").getValue() ,dist);
+  Rule(purple_group, green_group, cp5.getController("purple_green").getValue() ,dist);
+  Rule(purple_group, blue_group, cp5.getController("purple_blue").getValue() ,dist);
+  Rule(purple_group, purple_group, cp5.getController("purple_purple").getValue() ,dist);
   
   for(int i = 0; i < particles.size(); i++){
     Particle p = particles.get(i);
