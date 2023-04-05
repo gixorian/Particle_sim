@@ -55,7 +55,7 @@ void setup(){
   particle_types.add(new ParticleType("green", color(0, 255, 0)));
   particle_types.add(new ParticleType("blue", color(0, 0, 255)));
   particle_types.add(new ParticleType("purple", color(255, 0, 255)));
-  particle_types.add(new ParticleType("white", color(255, 255, 255)));
+  //particle_types.add(new ParticleType("white", color(255, 255, 255)));
 
   DrawGUI(); 
   
