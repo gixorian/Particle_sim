@@ -1,4 +1,6 @@
 import controlP5.*;
+import java.util.*;
+
 ControlP5 cp5;
 
 static int SLIDER_HEIGHT = 20;
@@ -92,49 +94,14 @@ void DrawGUI(){
   offset++;
   offset++;
   
-  // Particle force sliders
-  DrawSlider("yellow count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
-  DrawSlider("yellow_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("yellow_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("yellow_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("yellow_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("yellow_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
   
-  offset++;
-  
-  DrawSlider("red count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
-  DrawSlider("red_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("red_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("red_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("red_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("red_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  
-  offset++;
-  
-  DrawSlider("green count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
-  DrawSlider("green_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("green_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("green_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("green_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("green_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  
-  offset++;
-  
-  DrawSlider("blue count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
-  DrawSlider("blue_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("blue_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("blue_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("blue_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("blue_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  
-  offset++;
-  
-  DrawSlider("purple count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
-  DrawSlider("purple_yellow", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("purple_red", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("purple_green", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("purple_blue", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
-  DrawSlider("purple_purple", height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+  for (int i = 0; i < particle_types.size(); i++){
+    DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
+    for (int j = 0; j < particle_types.size(); j++){
+      DrawSlider(particle_types.get(i).col_name + "_" + particle_types.get(j).col_name, height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+    }
+    offset++;
+  }
 }
 
 void DrawSlider(String name, float h, PVector range, float start_value, boolean randomize){

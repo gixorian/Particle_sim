@@ -11,25 +11,22 @@ float G = 1;
 float F = 0;
 
 ArrayList<Particle> particles = new ArrayList<Particle>(); 
-ArrayList<Particle> yellow_group = new ArrayList<Particle>();
-ArrayList<Particle> red_group = new ArrayList<Particle>();
-ArrayList<Particle> green_group = new ArrayList<Particle>();
-ArrayList<Particle> blue_group = new ArrayList<Particle>();
-ArrayList<Particle> purple_group = new ArrayList<Particle>();
+ArrayList<ParticleGroup> particle_groups = new ArrayList<ParticleGroup>();
+
+ArrayList<ParticleType> particle_types = new ArrayList<ParticleType>();
 
 PVector rule_range = new PVector(-1, 1);
 boolean dist_function_d = true;
-
 void Reset(){
   
   particles.clear();
+  particle_groups.clear();
+  
   ResetGUI();
   
-  yellow_group = CreateGroup((int)cp5.getController("yellow count").getValue(), color(255,255,0), 3, 1);
-  red_group = CreateGroup((int)cp5.getController("red count").getValue(), color(255,0,0), 3, 1);
-  green_group = CreateGroup((int)cp5.getController("green count").getValue(), color(0,255,0), 3, 1);
-  blue_group = CreateGroup((int)cp5.getController("blue count").getValue(), color(0,0,255), 3, 1);
-  purple_group = CreateGroup((int)cp5.getController("purple count").getValue(), color(255,0,255), 3, 1);
+  for(int i = 0; i < particle_types.size(); i++){
+    particle_groups.add(new ParticleGroup(particle_types.get(i).col_name, CreateGroup((int)cp5.getController(particle_types.get(i).col_name + " count").getValue(), particle_types.get(i).col, 3, 1)));
+  }
 }
 
 void setup(){
@@ -53,8 +50,15 @@ void setup(){
   min_max_height.x = (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 );
   min_max_height.y = (height - (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 ));
   
-  DrawGUI(); 
+  particle_types.add(new ParticleType("yellow", color(255, 255, 0)));
+  particle_types.add(new ParticleType("red", color(255, 0, 0)));
+  particle_types.add(new ParticleType("green", color(0, 255, 0)));
+  particle_types.add(new ParticleType("blue", color(0, 0, 255)));
+  particle_types.add(new ParticleType("purple", color(255, 0, 255)));
+  particle_types.add(new ParticleType("white", color(255, 255, 255)));
 
+  DrawGUI(); 
+  
   Reset();
 }
 
@@ -73,35 +77,11 @@ void draw(){
   dist = cp5.getController("force distance").getValue();
   G = cp5.getController("G").getValue();
   
-  Rule(yellow_group, yellow_group, cp5.getController("yellow_yellow").getValue() ,dist);
-  Rule(yellow_group, red_group, cp5.getController("yellow_red").getValue() ,dist);
-  Rule(yellow_group, green_group, cp5.getController("yellow_green").getValue() ,dist);
-  Rule(yellow_group, blue_group, cp5.getController("yellow_blue").getValue() ,dist);
-  Rule(yellow_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
-  
-  Rule(red_group, yellow_group, cp5.getController("red_yellow").getValue() ,dist);
-  Rule(red_group, red_group, cp5.getController("red_red").getValue() ,dist);
-  Rule(red_group, green_group, cp5.getController("red_green").getValue() ,dist);
-  Rule(red_group, blue_group, cp5.getController("red_blue").getValue() ,dist);
-  Rule(red_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
-  
-  Rule(green_group, yellow_group, cp5.getController("green_yellow").getValue() ,dist);
-  Rule(green_group, red_group, cp5.getController("green_red").getValue() ,dist);
-  Rule(green_group, green_group, cp5.getController("green_green").getValue() ,dist);
-  Rule(green_group, blue_group, cp5.getController("green_blue").getValue() ,dist);
-  Rule(green_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
-  
-  Rule(blue_group, yellow_group, cp5.getController("blue_yellow").getValue() ,dist);
-  Rule(blue_group, red_group, cp5.getController("blue_red").getValue() ,dist);
-  Rule(blue_group, green_group, cp5.getController("blue_green").getValue() ,dist);
-  Rule(blue_group, blue_group, cp5.getController("blue_blue").getValue() ,dist);
-  Rule(blue_group, purple_group, cp5.getController("yellow_blue").getValue() ,dist);
-  
-  Rule(purple_group, yellow_group, cp5.getController("purple_yellow").getValue() ,dist);
-  Rule(purple_group, red_group, cp5.getController("purple_red").getValue() ,dist);
-  Rule(purple_group, green_group, cp5.getController("purple_green").getValue() ,dist);
-  Rule(purple_group, blue_group, cp5.getController("purple_blue").getValue() ,dist);
-  Rule(purple_group, purple_group, cp5.getController("purple_purple").getValue() ,dist);
+  for(int i = 0; i < particle_groups.size(); i++){
+    for(int j = 0; j < particle_groups.size(); j++){
+      Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController(particle_groups.get(i).name + "_" + particle_groups.get(j).name).getValue() ,dist);
+    }
+  }
   
   for(int i = 0; i < particles.size(); i++){
     Particle p = particles.get(i);
