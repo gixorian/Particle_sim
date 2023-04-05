@@ -1,4 +1,6 @@
 import controlP5.*;
+import java.util.*;
+
 ControlP5 cp5;
 
 static int SLIDER_HEIGHT = 20;
@@ -91,6 +93,7 @@ void DrawGUI(){
   
   offset++;
   offset++;
+  
   
   for (int i = 0; i < particle_types.size(); i++){
     DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);

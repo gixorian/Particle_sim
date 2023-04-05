@@ -33,7 +33,7 @@ void setup(){
   
   frameRate(60);
   size(1050, 800);
-  //fullScreen();
+  fullScreen();
   background(0);
   noStroke();
   stroke(0);
@@ -55,7 +55,8 @@ void setup(){
   particle_types.add(new ParticleType("green", color(0, 255, 0)));
   particle_types.add(new ParticleType("blue", color(0, 0, 255)));
   particle_types.add(new ParticleType("purple", color(255, 0, 255)));
-  
+  particle_types.add(new ParticleType("white", color(255, 255, 255)));
+
   DrawGUI(); 
   
   Reset();
