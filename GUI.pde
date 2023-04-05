@@ -6,7 +6,7 @@ ControlP5 cp5;
 static int SLIDER_HEIGHT = 20;
 static int GUI_WIDTH = 250;
 
-ArrayList<String> sliders = new ArrayList<String>();
+ArrayList<Slider> sliders = new ArrayList<Slider>();
 
 ControlFont font;
 int offset = 1;
@@ -15,7 +15,7 @@ RadioButton distance_function_btn;
 
 public void Randomize(){
   for(int i = 0; i < sliders.size(); i++){
-    cp5.getController(sliders.get(i)).setValue(random(-1, 1));
+    sliders.get(i).setValue(random(-1, 1));
   }
 }
 
@@ -79,48 +79,47 @@ void DrawGUI(){
   offset += 3;
   
   // Force distance slider
-  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 100, false);
+  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 100);
   
   //offset++;
   
   // G slider
-  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1.5, false);
+  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1.5);
   
   offset++;
   
   // size slider
-  DrawSlider("size", height-(SLIDER_HEIGHT*offset), new PVector(1, 10), 3, false);
+  DrawSlider("size", height-(SLIDER_HEIGHT*offset), new PVector(1, 10), 3);
   
   offset++;
   offset++;
   
   
   for (int i = 0; i < particle_types.size(); i++){
-    DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
+    DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500);
     for (int j = 0; j < particle_types.size(); j++){
-      DrawSlider(particle_types.get(i).col_name + "_" + particle_types.get(j).col_name, height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+      Slider new_slider = DrawSlider(particle_types.get(i).col_name + "_" + particle_types.get(j).col_name, height-(SLIDER_HEIGHT*offset), rule_range, 0);
+      sliders.add(new_slider);
     }
     offset++;
   }
 }
 
-void DrawSlider(String name, float h, PVector range, float start_value, boolean randomize){
-  
-  if(randomize) { sliders.add(name); }
-  
-  cp5.addSlider(name)
-     .setPosition(0, h)
-     .setSize(GUI_WIDTH, SLIDER_HEIGHT)
-     .setRange(range.x, range.y)
-     .setValue(start_value)
-     ;
+Slider DrawSlider(String name, float h, PVector range, float start_value){
+
+  Slider s = cp5.addSlider(name)
+                .setPosition(0, h)
+                .setSize(GUI_WIDTH, SLIDER_HEIGHT)
+                .setRange(range.x, range.y)
+                .setValue(start_value)
+                ;
      
-  cp5.getController(name).getValueLabel()
+  s.getValueLabel()
      .align(ControlP5.RIGHT, ControlP5.CENTER)
      .setPaddingX(10)
      ;
      
-  cp5.getController(name).getCaptionLabel()
+  s.getCaptionLabel()
   .align(ControlP5.LEFT, ControlP5.CENTER)
   .setPaddingX(10)
   .setFont(font)
@@ -129,10 +128,12 @@ void DrawSlider(String name, float h, PVector range, float start_value, boolean 
   ;
   
   offset++;
+  
+  return s;
 }
 
 void ResetGUI(){
   for(int i = 0; i < sliders.size(); i++){
-    cp5.getController(sliders.get(i)).setValue(0);
+    sliders.get(i).setValue(0);
   }
 }
