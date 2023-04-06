@@ -79,12 +79,12 @@ void DrawGUI(){
   offset += 3;
   
   // Force distance slider
-  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 100, false);
+  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
   
   //offset++;
   
   // G slider
-  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 1.5, false);
+  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 0.5, false);
   
   offset++;
   
@@ -94,6 +94,15 @@ void DrawGUI(){
   offset++;
   offset++;
   
+  cp5.addSlider("Scroll")
+     .setPosition(GUI_WIDTH,0)
+     .setSize(20,height)
+     .setRange(0,100)
+     .setValue(0)
+     .setLabelVisible(false)
+     .setSliderMode(Slider.FLEXIBLE)
+     .setHandleSize(height)
+     ;
   
   for (int i = 0; i < particle_types.size(); i++){
     DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
@@ -135,4 +144,12 @@ void ResetGUI(){
   for(int i = 0; i < sliders.size(); i++){
     cp5.getController(sliders.get(i)).setValue(0);
   }
+}
+
+void Scroll(){
+  print("Scroll\n");
+}
+
+void UpdateGUI(){
+  
 }

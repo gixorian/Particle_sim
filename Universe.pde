@@ -33,7 +33,7 @@ void setup(){
   
   frameRate(60);
   size(1050, 800);
-  fullScreen();
+  //fullScreen();
   background(0);
   noStroke();
   stroke(0);
@@ -93,6 +93,8 @@ void draw(){
   
   fill(54, 57, 61);
   rect(0, 0, GUI_WIDTH, height);
+  
+  UpdateGUI();
 }
 
 ArrayList<Particle> CreateGroup(int amount, color col, float size, float mass){
