@@ -1,7 +1,7 @@
 static float MAX_SPEED = 5;
 
-static int CANVAS_WIDTH;
-static int CANVAS_HEIGHT;
+float CANVAS_WIDTH;
+float CANVAS_HEIGHT;
 
 PVector max_canvas_size = new PVector();
 PVector min_max_width = new PVector();
@@ -17,6 +17,21 @@ ArrayList<ParticleType> particle_types = new ArrayList<ParticleType>();
 
 PVector rule_range = new PVector(-1, 1);
 boolean dist_function_d = true;
+
+void UpdateCanvas(){
+  
+  min_max_width.x = (GUI_WIDTH + (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
+  min_max_width.y = (width - (int)(( max_canvas_size.x - CANVAS_WIDTH ) / 2 ));
+  
+  min_max_height.x = (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 );
+  min_max_height.y = (height - (int)(( max_canvas_size.y - CANVAS_HEIGHT ) / 2 ));
+  
+  noFill();
+  stroke(255);
+  strokeWeight(5);
+  rect(min_max_width.x, min_max_height.x, CANVAS_WIDTH, CANVAS_HEIGHT);
+}
+
 void Reset(){
   
   particles.clear();
@@ -25,7 +40,7 @@ void Reset(){
   ResetGUI();
   
   for(int i = 0; i < particle_types.size(); i++){
-    particle_groups.add(new ParticleGroup(particle_types.get(i).col_name, CreateGroup((int)cp5.getController(particle_types.get(i).col_name + " count").getValue(), particle_types.get(i).col, 3, 1)));
+    particle_groups.add(new ParticleGroup(particle_types.get(i).col_name, CreateGroup((int)cp5.getController("Update" + particle_types.get(i).col_name + "Count").getValue(), particle_types.get(i).col, 3, 1)));
   }
 }
 
@@ -64,22 +79,24 @@ void setup(){
 
 float dist = 100;
 
+void UpdateForceDist(){
+  dist = cp5.getController("UpdateForceDist").getValue();
+}
+
+void UpdateG(){
+  G = cp5.getController("UpdateG").getValue();
+}
+
 void draw(){
   //if(frameCount % 10 == 0) { return; }
   //print(frameRate + "\n");
   background(0);
   
-  noFill();
-  stroke(255);
-  strokeWeight(5);
-  rect(min_max_width.x, min_max_height.x, CANVAS_WIDTH, CANVAS_HEIGHT);
-  
-  dist = cp5.getController("force distance").getValue();
-  G = cp5.getController("G").getValue();
+  UpdateCanvas();
   
   for(int i = 0; i < particle_groups.size(); i++){
     for(int j = 0; j < particle_groups.size(); j++){
-      Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController(particle_groups.get(i).name + "_" + particle_groups.get(j).name).getValue() ,dist);
+      Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController("Update" + particle_groups.get(i).name + "_" + particle_groups.get(j).name + "Force").getValue() ,dist);
     }
   }
   
@@ -88,7 +105,7 @@ void draw(){
     fill(p.col);
     stroke(0);
     strokeWeight(1);
-    ellipse(p.x, p.y, cp5.getController("size").getValue(), cp5.getController("size").getValue() );//p.size, p.size);   
+    ellipse(p.x, p.y, cp5.getController("UpdateParticleSize").getValue(), cp5.getController("UpdateParticleSize").getValue() );//p.size, p.size);   
   }
   
   fill(54, 57, 61);

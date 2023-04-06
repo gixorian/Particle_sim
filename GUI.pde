@@ -13,6 +13,16 @@ int offset = 1;
 
 RadioButton distance_function_btn;
 
+void UpdateCanvasWidth(float c_width){
+  CANVAS_WIDTH = c_width;
+  UpdateCanvas();
+}
+
+void UpdateCanvasHeight(float c_height){
+  CANVAS_HEIGHT = c_height;
+  UpdateCanvas();
+}
+
 public void Randomize(){
   for(int i = 0; i < sliders.size(); i++){
     cp5.getController(sliders.get(i)).setValue(random(-1, 1));
@@ -79,17 +89,40 @@ void DrawGUI(){
   offset += 3;
   
   // Force distance slider
-  DrawSlider("force distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
+  DrawSlider("UpdateCanvasWidth", "Canvas Width", height-(SLIDER_HEIGHT*offset), new PVector(10, max_canvas_size.x), (int)(max_canvas_size.x/2), false);
+  offset--;
+  cp5.getController("UpdateCanvasWidth").setCaptionLabel("");
+  cp5.getController("UpdateCanvasWidth").setPosition(0, height-(SLIDER_HEIGHT*offset));
+  cp5.getController("UpdateCanvasWidth").setSize((int)(GUI_WIDTH/2), SLIDER_HEIGHT);
+  
+  DrawSlider("UpdateCanvasHeight", "Canvas Height", height-(SLIDER_HEIGHT*offset), new PVector(10, max_canvas_size.y), (int)(max_canvas_size.y/2), false);
+  offset--;
+  cp5.getController("UpdateCanvasHeight").setCaptionLabel("");
+  cp5.getController("UpdateCanvasHeight").setPosition((int)(GUI_WIDTH/2), height-(SLIDER_HEIGHT*offset));
+  cp5.getController("UpdateCanvasHeight").setSize((int)(GUI_WIDTH/2), SLIDER_HEIGHT);
+  
+  offset++;
+  cp5.addTextlabel("CanvasSize")
+   .setText("Canvas Size")
+   .setPosition(0,height-(SLIDER_HEIGHT*offset))
+   .setFont(createFont("Arial Bold",12))
+   ;
+   
+  offset++;
+  offset++;
+  
+  // Force distance slider
+  DrawSlider("UpdateForceDist", "Force Distance", height-(SLIDER_HEIGHT*offset), new PVector(0, 200), 80, false);
   
   //offset++;
   
   // G slider
-  DrawSlider("G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 0.5, false);
+  DrawSlider("UpdateG", "G", height-(SLIDER_HEIGHT*offset), new PVector(0, 50), 0.5, false);
   
   offset++;
   
   // size slider
-  DrawSlider("size", height-(SLIDER_HEIGHT*offset), new PVector(1, 10), 3, false);
+  DrawSlider("UpdateParticleSize", "Particle Size", height-(SLIDER_HEIGHT*offset), new PVector(1, 10), 3, false);
   
   offset++;
   offset++;
@@ -105,31 +138,33 @@ void DrawGUI(){
      ;
   
   for (int i = 0; i < particle_types.size(); i++){
-    DrawSlider(particle_types.get(i).col_name + " count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
+    DrawSlider("Update" + particle_types.get(i).col_name + "Count", particle_types.get(i).col_name + " Count", height-(SLIDER_HEIGHT*offset-5), new PVector(1, 2000), 500, false);
     for (int j = 0; j < particle_types.size(); j++){
-      DrawSlider(particle_types.get(i).col_name + "_" + particle_types.get(j).col_name, height-(SLIDER_HEIGHT*offset), rule_range, 0, true);
+      String s = particle_types.get(i).col_name + "_" + particle_types.get(j).col_name;
+      DrawSlider("Update" + s + "Force", s, height-(SLIDER_HEIGHT*offset), rule_range, 0, true );
     }
     offset++;
   }
 }
 
-void DrawSlider(String name, float h, PVector range, float start_value, boolean randomize){
+void DrawSlider(String function_name, String caption_name, float h, PVector range, float start_value, boolean randomize){
   
-  if(randomize) { sliders.add(name); }
+  if(randomize) { sliders.add(function_name); }
   
-  cp5.addSlider(name)
+  cp5.addSlider(function_name)
      .setPosition(0, h)
      .setSize(GUI_WIDTH, SLIDER_HEIGHT)
      .setRange(range.x, range.y)
      .setValue(start_value)
+     .setCaptionLabel(caption_name)
      ;
      
-  cp5.getController(name).getValueLabel()
+  cp5.getController(function_name).getValueLabel()
      .align(ControlP5.RIGHT, ControlP5.CENTER)
      .setPaddingX(10)
      ;
      
-  cp5.getController(name).getCaptionLabel()
+  cp5.getController(function_name).getCaptionLabel()
   .align(ControlP5.LEFT, ControlP5.CENTER)
   .setPaddingX(10)
   .setFont(font)
@@ -147,7 +182,7 @@ void ResetGUI(){
 }
 
 void Scroll(){
-  print("Scroll\n");
+  
 }
 
 void UpdateGUI(){
