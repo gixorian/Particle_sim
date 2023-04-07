@@ -48,7 +48,7 @@ void setup(){
   
   frameRate(60);
   size(1050, 800);
-  //fullScreen();
+  fullScreen();
   background(0);
   noStroke();
   stroke(0);
@@ -87,6 +87,27 @@ void UpdateG(){
   G = cp5.getController("UpdateG").getValue();
 }
 
+boolean thread_done = true;
+
+int indexI = 0;
+int indexJ = 0;
+
+void RuleThread(){
+    thread_done = false;
+    for(int i = 0; i < particle_groups.size(); i++){
+      for(int j = 0; j < particle_groups.size(); j++){
+        Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController("Update" + particle_groups.get(i).name + "_" + particle_groups.get(j).name + "Force").getValue() ,dist);
+      }
+    }
+    thread_done = true;
+}
+
+//void ThreadTest(){
+
+//  Rule(particle_groups.get(indexI).particles, particle_groups.get(indexJ).particles, cp5.getController("Update" + particle_groups.get(indexI).name + "_" + particle_groups.get(indexJ).name + "Force").getValue() ,dist);
+
+//}
+
 void draw(){
   //if(frameCount % 10 == 0) { return; }
   //print(frameRate + "\n");
@@ -94,11 +115,19 @@ void draw(){
   
   UpdateCanvas();
   
-  for(int i = 0; i < particle_groups.size(); i++){
-    for(int j = 0; j < particle_groups.size(); j++){
-      Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController("Update" + particle_groups.get(i).name + "_" + particle_groups.get(j).name + "Force").getValue() ,dist);
-    }
+  //RuleThread();
+  
+  if(thread_done){
+    thread("RuleThread");
   }
+  
+  //ThreadTest();
+  
+  //for(int i = 0; i < particle_groups.size(); i++){
+  //  for(int j = 0; j < particle_groups.size(); j++){
+  //    Rule(particle_groups.get(i).particles, particle_groups.get(j).particles, cp5.getController("Update" + particle_groups.get(i).name + "_" + particle_groups.get(j).name + "Force").getValue() ,dist);
+  //  }
+  //}
   
   for(int i = 0; i < particles.size(); i++){
     Particle p = particles.get(i);
