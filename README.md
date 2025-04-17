@@ -1,5 +1,5 @@
 # Particle_sim
-Simulation of particles in a vacuum with custome rules
+Simulation of particles in a vacuum with custom rules
 
 ## Download Instructions
 
